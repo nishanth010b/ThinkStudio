@@ -1,0 +1,28 @@
+.nav_menu_item_wrap {
+  transition: opacity 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.nav_menu_list:hover:has(.nav_menu_item_wrap:hover)
+  .nav_menu_item_wrap:not(:hover) {
+  opacity: 0.4;
+}
+
+.nav_menu_item {
+  transition: transform 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.nav_menu_item_wrap:hover .nav_menu_item {
+  transform: translateX(0.5%);
+}
+
+/* .nav_social_text {
+  position: relative;
+}
+
+.nav_social_text::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: var(--border-width--main);
+  color: var(--swatch--light-100-o80);
+} */

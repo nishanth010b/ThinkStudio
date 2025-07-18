@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "esbuild src/index.js --bundle --watch --minify --outfile=index.js"
+    "build": "esbuild src/index.js --bundle --watch --minify --outfile=dist/index.js"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
     "esbuild": "0.25.6"
+  },
+  "dependencies": {
+    "@studio-freight/lenis": "^1.0.42"
   }
 }
