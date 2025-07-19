@@ -7,7 +7,7 @@ import { disableContextMenuAndDrag } from "./utilities/noContextMenu";
 
 export default class Index {
   constructor() {
-    new HeroAnim(document.querySelector(".hero_primary_wrap"));
+    new HeroAnim();
     new Nav();
   }
 }

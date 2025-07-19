@@ -5,8 +5,7 @@ export class Nav {
     this.setUp();
     this.handleMouse();
     this.handleKey();
-    this.handleScroll();
-    this.svgDot();
+    // this.handleScroll();
 
     this.menuVideoPlay();
   }
@@ -22,11 +21,38 @@ export class Nav {
     this.menuLinks = this.menu.querySelectorAll(".nav_menu_item_link");
     this.menuSocialItems = this.menu.querySelectorAll(".nav_social_item");
     this.menuBtnTexts = this.menuBtn.querySelectorAll(".nav_btn_text");
-    //timeline
+
+    //svg dot positions
+    this.start = [
+      { cx: 1.41176, cy: 1.41176 },
+      { cx: 7.99966, cy: 1.41176 },
+      { cx: 14.5885, cy: 1.41176 },
+      { cx: 1.41176, cy: 8.00004 },
+      { cx: 7.99966, cy: 8.00004 },
+      { cx: 14.5885, cy: 8.00004 },
+      { cx: 1.41176, cy: 14.5883 },
+      { cx: 7.99966, cy: 14.5883 },
+      { cx: 14.5885, cy: 14.5883 },
+    ];
+
+    this.end = [
+      { cx: 1.41176, cy: 1.41176 },
+      { cx: 4.41176, cy: 4.41176 },
+      { cx: 14.5885, cy: 1.41176 },
+      { cx: 4.41176, cy: 11.4118 },
+      { cx: 7.99966, cy: 8.00004 },
+      { cx: 11.4118, cy: 4.41176 },
+      { cx: 1.41176, cy: 14.5883 },
+      { cx: 11.4118, cy: 11.4118 },
+      { cx: 14.5885, cy: 14.5883 },
+    ];
+
+    //main timeline
     this.tl = gsap.timeline({
       defaults: { ease: "expo.inOut", duration: 1.25 },
     });
 
+    //set font size for mobile
     if (isMobile()) {
       this.menuList.querySelectorAll(".nav_menu_text").forEach((item) => {
         item.classList.remove("u-text-style-display");
@@ -38,6 +64,8 @@ export class Nav {
   openNav() {
     this.menu.setAttribute("data-menu", "open");
     window.lenis.stop();
+
+    this.animateDots(this.end);
     this.tl
       .clear()
       .set(this.overlay, { display: "block" }, "<")
@@ -113,6 +141,8 @@ export class Nav {
   closeNav() {
     this.menu.setAttribute("data-menu", "close");
     window.lenis.start();
+
+    this.animateDots(this.start);
     this.tl
       .clear()
       .fromTo(
@@ -145,41 +175,12 @@ export class Nav {
       .set(this.menu, { display: "none" });
   }
 
-  svgDot() {
-    const start = [
-      { cx: 1.41176, cy: 1.41176 },
-      { cx: 7.99966, cy: 1.41176 },
-      { cx: 14.5885, cy: 1.41176 },
-      { cx: 1.41176, cy: 8.00004 },
-      { cx: 7.99966, cy: 8.00004 },
-      { cx: 14.5885, cy: 8.00004 },
-      { cx: 1.41176, cy: 14.5883 },
-      { cx: 7.99966, cy: 14.5883 },
-      { cx: 14.5885, cy: 14.5883 },
-    ];
-
-    const end = [
-      { cx: 1.41176, cy: 1.41176 },
-      { cx: 4.41176, cy: 4.41176 },
-      { cx: 14.5885, cy: 1.41176 },
-      { cx: 4.41176, cy: 11.4118 },
-      { cx: 7.99966, cy: 8.00004 },
-      { cx: 11.4118, cy: 4.41176 },
-      { cx: 1.41176, cy: 14.5883 },
-      { cx: 11.4118, cy: 11.4118 },
-      { cx: 14.5885, cy: 14.5883 },
-    ];
-
-    this.menuBtn.addEventListener("click", () => {
-      const state = this.menu.getAttribute("data-menu");
-      const target = state === "open" ? end : start;
-
-      this.menuBtnDots.querySelectorAll("circle").forEach((circle, i) => {
-        gsap.to(circle, {
-          duration: 0.5,
-          attr: { cx: target[i].cx, cy: target[i].cy },
-          ease: "power2.inOut",
-        });
+  animateDots(targetPositions) {
+    this.menuBtnDots.querySelectorAll("circle").forEach((circle, i) => {
+      gsap.to(circle, {
+        duration: 0.5,
+        attr: { cx: targetPositions[i].cx, cy: targetPositions[i].cy },
+        ease: "power2.inOut",
       });
     });
   }
