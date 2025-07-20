@@ -4,9 +4,14 @@ export class HeroAnim {
   constructor() {
     console.log("hero class init");
 
-    this.wrapper = document.querySelector(".hero_primary_video_wrap");
+    this.wrapper = document.querySelector(".hero_primary_wrap");
+    this.videoWrap = this.wrapper.querySelector(".hero_primary_video_wrap");
     this.videoHolder = this.wrapper.querySelector(".hero_primary_video_holder");
-    // this.textContent = this.wrapper.querySelector(".hero_primary_contain");
+    this.textContent = this.wrapper.querySelector(".hero_primary_contain");
+
+    this.videoSmallContainer = this.wrapper.querySelector(
+      ".hero_primary_video_small"
+    );
 
     this.scaleDown();
     this.handleResize();
@@ -23,17 +28,31 @@ export class HeroAnim {
       scrollTrigger: {
         trigger: this.wrapper,
         start: "top top",
-        end: isMobile() ? "bottom 40%" : "bottom 65%",
-        scrub: true,
+        end: "=+100%",
+        scrub: 0.5,
         pin: true,
-        //pinSpacing: true,
+        pinSpacing: true,
         anticipatePin: 1,
+        onUpdate: (self) => {
+          const videoHeight = this.videoHolder.offsetHeight || 0;
+          const topOffset =
+            parseFloat(this.videoHolder.getBoundingClientRect().top) || 0;
+          const bottomOffset = isMobile() ? 12 : 24;
+          const newWrapperHeight = videoHeight + topOffset + bottomOffset;
+
+          this.videoWrap.style.height = `${newWrapperHeight}px`;
+        },
+        onComplete: () => {
+          setTimeout(() => {
+            this.videoWrap.style.height = "auto";
+          }, 1000);
+        },
       },
-      width: isMobile() ? "60vw" : "32vw",
-      height: isMobile() ? "60vw" : "32vw",
-      top: "10rem",
+      width: isMobile() ? "50vw" : "30vw",
+      height: isMobile() ? "50vw" : "30vw",
+      top: "7rem",
       left: isMobile() ? "0.25rem" : "1.75rem",
-      ease: "power1.inOut",
+      ease: "none",
     });
   }
 
