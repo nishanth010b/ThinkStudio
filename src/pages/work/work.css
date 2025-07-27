@@ -1,0 +1,15 @@
+@container threshold-large (width > 62em) {
+  .case_expand_upper strong {
+    margin-left: calc(var(--site--column-width) * 3);
+  }
+}
+
+.case_expand_upper p,
+.case_expand_upper strong,
+.case_expand_lower p {
+  font-weight: 500 !important;
+}
+
+.case_grid_image:nth-child(3n + 1) {
+  grid-column: span 2;
+}

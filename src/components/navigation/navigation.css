@@ -12,10 +12,6 @@
     opacity: 0.5;
   }
 
-  .nav_menu_item_wrap:hover .nav_menu_item:not(:last-child) {
-    transform: translateX(2%);
-  }
-
   .nav_menu_item_wrap:hover .nav_menu_number {
     color: var(--swatch--brand-500);
   }

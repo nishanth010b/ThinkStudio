@@ -1,4 +1,5 @@
-import { isMobile } from "../../utilities/checkBreakpoints";
+import { isMobile } from "../../utilities/scripts/checkBreakpoints";
+import isTouch from "../../utilities/scripts/touchDetection";
 
 export class Nav {
   constructor() {
@@ -7,7 +8,9 @@ export class Nav {
     this.handleKey();
     // this.handleScroll();
 
-    this.menuVideoPlay();
+    if (!isMobile() || !isTouch) {
+      this.menuVideoPlay();
+    }
   }
 
   setUp() {
@@ -18,7 +21,7 @@ export class Nav {
     this.menuBtnDots = this.menuBtn.querySelector(".nav_btn_dots");
     this.menuBg = this.menu.querySelectorAll(".nav_menu_bg");
     this.menuList = this.menu.querySelector(".nav_menu_list");
-    this.menuLinks = this.menu.querySelectorAll(".nav_menu_item_link");
+    this.menuLinks = this.menu.querySelectorAll(".nav_menu_item");
     this.menuSocialItems = this.menu.querySelectorAll(".nav_social_item");
     this.menuBtnTexts = this.menuBtn.querySelectorAll(".nav_btn_text");
 
@@ -81,38 +84,17 @@ export class Nav {
         { yPercent: 0, duration: 0.85, stagger: 0.1 },
         "<"
       )
-      .fromTo(
-        this.menuBg[1].querySelector("img"),
-        { scale: 2, autoAlpha: 0 },
-        { scale: 1, autoAlpha: 1 },
-        "<"
-      )
-      .fromTo(
-        this.menu.querySelector(".nav_menu_bg_patterns"),
-        {
-          scale: 1.2,
-          y: "3rem",
-          x: isMobile() ? 0 : "-10rem",
-          rotate: 3,
-          autoAlpha: 0,
-        },
-        {
-          scale: 1,
-          y: "0rem",
-          x: "0rem",
-          rotate: 0,
-          autoAlpha: 1,
-          duration: 1.5,
-          ease: "power2.inOut",
-        },
-        "<"
-      )
-
+      // .fromTo(
+      //   this.menu.querySelector("img"),
+      //   { autoAlpha: 0 },
+      //   { autoAlpha: 1 },
+      //   "<+=0.15"
+      // )
       .fromTo(
         this.menuBtnTexts,
         { yPercent: 0 },
         { yPercent: -100, duration: 0.75 },
-        "0.25"
+        "<"
       )
       .fromTo(
         this.menuList,
@@ -123,7 +105,7 @@ export class Nav {
       .fromTo(
         this.menuLinks,
         {
-          yPercent: isMobile() ? 120 : 140,
+          yPercent: isMobile() ? 120 : 240,
           autoAlpha: 0,
           rotate: 4,
         },
@@ -150,20 +132,19 @@ export class Nav {
         { clipPath: "inset(0% 0% 0% 0%)" },
         { clipPath: "inset(0% 0% 100% 0%)", duration: 1 }
       )
-      .fromTo(
-        this.menuBg[1].querySelector("img"),
-        { scale: 1, autoAlpha: 1 },
-        { scale: 2, autoAlpha: 0 },
-        "<"
-      )
+      // .fromTo(
+      //   this.menu.querySelector("img"),
+      //   { autoAlpha: 1 },
+      //   { autoAlpha: 0 },
+      //   "<+=0.15"
+      // )
       .fromTo(
         this.menuList,
         { autoAlpha: 1 },
         { autoAlpha: 0, duration: 0.5 },
         "<+=0.15"
       )
-
-      .to(this.menuBtnTexts, { yPercent: 0, duration: 0.75 }, "0.25")
+      .to(this.menuBtnTexts, { yPercent: 0, duration: 0.75 }, "<")
       .to(
         this.overlay,
         {
@@ -179,6 +160,7 @@ export class Nav {
     this.menuBtnDots.querySelectorAll("circle").forEach((circle, i) => {
       gsap.to(circle, {
         duration: 0.5,
+        delay: 0.2,
         attr: { cx: targetPositions[i].cx, cy: targetPositions[i].cy },
         ease: "power2.inOut",
       });
@@ -186,16 +168,20 @@ export class Nav {
   }
 
   handleMouse() {
-    let isRotated = false;
-
-    //rotate menu button dots on hover
+    //menu Dots
     this.menuBtn.addEventListener("mouseenter", () => {
       gsap.to(this.menuBtnDots, {
-        rotate: isRotated ? 180 : -180,
+        rotate: 90,
         ease: "expo.inOut",
         duration: 0.7,
       });
-      isRotated = !isRotated;
+    });
+    this.menuBtn.addEventListener("mouseleave", () => {
+      gsap.to(this.menuBtnDots, {
+        rotate: 0,
+        ease: "expo.inOut",
+        duration: 0.7,
+      });
     });
 
     //toggle menu on click
@@ -206,6 +192,29 @@ export class Nav {
       } else {
         this.closeNav();
       }
+    });
+
+    //navlinks hover
+    this.menu.querySelectorAll(".nav_menu_item_wrap").forEach((item, index) => {
+      const menuItemElement = item.querySelector(".nav_menu_item");
+      const isLastChild =
+        index === this.menu.querySelectorAll(".nav_menu_item_wrap").length - 1;
+
+      if (!menuItemElement || isTouch || isMobile()) return;
+      item.addEventListener("mouseenter", () => {
+        gsap.to(menuItemElement, {
+          x: isLastChild ? "-2%" : "2%",
+          duration: 0.2,
+          ease: "power2.inOut",
+        });
+      });
+      item.addEventListener("mouseleave", () => {
+        gsap.to(menuItemElement, {
+          x: "0%",
+          duration: 0.2,
+          ease: "power2.inOut",
+        });
+      });
     });
   }
 
@@ -254,7 +263,7 @@ export class Nav {
           // Show container and play the video inside it
           matchingContainer.style.opacity = "1";
           if (videoElement) {
-            videoElement.currentTime = 0;
+            //videoElement.currentTime = 0;
             videoElement
               .play()
               .catch((e) => console.log("Video play error:", e));

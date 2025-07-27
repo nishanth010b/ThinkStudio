@@ -1,4 +1,4 @@
-import { isMobile } from "../../utilities/checkBreakpoints";
+import { isMobile } from "../../utilities/scripts/checkBreakpoints";
 
 export class HeroAnim {
   constructor() {
@@ -33,6 +33,7 @@ export class HeroAnim {
         pin: true,
         pinSpacing: true,
         anticipatePin: 1,
+        invalidateOnRefresh: true,
         onUpdate: (self) => {
           const videoHeight = this.videoHolder.offsetHeight || 0;
           const topOffset =

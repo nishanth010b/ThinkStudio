@@ -1,2 +1,4 @@
 @import "../components/navigation/navigation.css";
 @import "../pages/home/home.css";
+@import "../utilities/styles/hoverLineAnim.css";
+@import "../pages/work/work.css";
