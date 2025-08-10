@@ -64,7 +64,7 @@ export class NewHeroScale {
       ease: "none",
       scrollTrigger: {
         trigger: this.videoHolder,
-        start: isMobile() ? "top top+=12" : "top top+=20",
+        start: isMobile() ? "top top+=12" : "top top+=24",
         end: "bottom top",
         invalidateOnRefresh: true,
         scrub: true,

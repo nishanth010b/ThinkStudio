@@ -12,10 +12,9 @@ export class TextAnimations {
     const selector =
       "[data-split-text='true'] :is(h1, h2), h2[data-split-text='true']";
     this.splitTextElements = SplitText.create(selector, {
-      type: "chars,words",
+      type: "chars",
       tag: "span",
       charsClass: "char",
-      wordsClass: "word",
       smartWrap: true,
     });
   }
@@ -46,27 +45,27 @@ export class TextAnimations {
     });
   }
 
-  wordsStagger() {
-    if (!this.splitTextElements) return;
+  // wordsStagger() {
+  //   if (!this.splitTextElements) return;
 
-    const animationElements = document.querySelectorAll(
-      "[data-text-anim='words-stagger']"
-    );
-    animationElements.forEach((element) => {
-      const words = element.querySelectorAll(".word");
-      console.log(words);
-      if (words.length === 0) return;
-      gsap.from(words, {
-        scrollTrigger: {
-          trigger: element,
-          start: "top 80%",
-          toggleActions: "play none none reverse",
-        },
-        yPercent: 100,
-        duration: 0.5,
-        ease: "expo.inOut",
-        stagger: 0.01,
-      });
-    });
-  }
+  //   const animationElements = document.querySelectorAll(
+  //     "[data-text-anim='words-stagger']"
+  //   );
+  //   animationElements.forEach((element) => {
+  //     const words = element.querySelectorAll(".word");
+  //     console.log(words);
+  //     if (words.length === 0) return;
+  //     gsap.from(words, {
+  //       scrollTrigger: {
+  //         trigger: element,
+  //         start: "top 80%",
+  //         toggleActions: "play none none reverse",
+  //       },
+  //       yPercent: 100,
+  //       duration: 0.5,
+  //       ease: "expo.inOut",
+  //       stagger: 0.01,
+  //     });
+  //   });
+  // }
 }

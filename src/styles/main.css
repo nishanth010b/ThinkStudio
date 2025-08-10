@@ -2,3 +2,20 @@
 @import "../pages/home/home.css";
 @import "../utilities/styles/hoverLineAnim.css";
 @import "../pages/work/work.css";
+
+.char {
+  display: inline-block;
+}
+
+html {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and old Edge */
+}
+
+html::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and WebKit */
+}
+
+body {
+  overscroll-behavior-x: none; /* No back on scroll-x */
+}

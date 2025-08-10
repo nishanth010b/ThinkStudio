@@ -1,4 +1,4 @@
-.real_image_holder:nth-child(2n) {
+/* .real_image_holder:nth-child(2n) {
   border-radius: var(--radius--small) var(--radius--small) var(--radius--small)
     0;
 }
@@ -6,7 +6,7 @@
 .real_image_holder:nth-child(2n + 1) {
   border-radius: var(--radius--small) var(--radius--small) 0
     var(--radius--small);
-}
+} */
 
 .work_card_visual {
   transition: transform 0.65s cubic-bezier(0.215, 0.61, 0.355, 1);
@@ -14,4 +14,8 @@
 
 .work_card_wrap:hover .work_card_visual {
   transform: scale(1.03);
+}
+
+.real_sticky_text {
+  opacity: 0;
 }
