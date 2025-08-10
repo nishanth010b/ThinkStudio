@@ -1,4 +1,7 @@
-import { isMobile } from "../../utilities/scripts/checkBreakpoints";
+import {
+  isMobile,
+  isMobileLandscape,
+} from "../../utilities/scripts/checkBreakpoints";
 import isTouch from "../../utilities/scripts/touchDetection";
 
 export class Nav {
@@ -6,7 +9,8 @@ export class Nav {
     this.setUp();
     this.handleMouse();
     this.handleKey();
-    // this.handleScroll();
+    this.handleScroll();
+    this.mobileProgBlurAppear();
 
     if (!isMobile() || !isTouch) {
       this.menuVideoPlay();
@@ -286,10 +290,28 @@ export class Nav {
     });
   }
 
+  mobileProgBlurAppear() {
+    const progWrap = this.navWrap.querySelector(".nav_mobile_blur");
+    if (!progWrap || !isMobileLandscape()) return;
+
+    gsap.set(progWrap, { opacity: 0 });
+
+    gsap.to(progWrap, {
+      scrollTrigger: {
+        trigger: this.navWrap,
+        start: "top top",
+        end: "top top-=10",
+        toggleActions: "play none reverse none",
+      },
+      opacity: 1,
+    });
+  }
+
   handleScroll() {
+    if (isMobileLandscape()) return;
     const logoWrap = document.querySelector(".nav_logo_wrap");
     window.addEventListener("scroll", () => {
-      if (window.scrollY > window.innerHeight * 0.9) {
+      if (window.scrollY > window.innerHeight * 0.5) {
         logoWrap.classList.add("is-normal");
       } else {
         logoWrap.classList.remove("is-normal");

@@ -16,6 +16,7 @@ export class RealStory {
     this.parallaxImage();
     this.stickyWork();
     this.mouseMove();
+    this.navHideUnhide();
   }
 
   textAnimationY() {
@@ -229,7 +230,7 @@ export class RealStory {
     // Assign speed based on normalized area (smaller area = higher speed)
     this.items.forEach((item) => {
       if (item.area !== undefined) {
-        const minSpeed = 0.6;
+        const minSpeed = 0.2;
         const maxSpeed = 2.5;
         item.speed =
           ((maxArea - item.area) / (maxArea - minArea)) *
@@ -258,6 +259,47 @@ export class RealStory {
     gsap.set(item.img, {
       x: item.mouseX || 0,
       y: (item.parallaxY || 0) + (item.mouseY || 0),
+    });
+  }
+
+  navHideUnhide() {
+    const navWrap = document.querySelector(".nav_wrap");
+    const container = navWrap.querySelector(".nav_contain");
+    const children = container.children;
+
+    // Create a single timeline for hide/show
+    const tl = gsap.timeline({
+      paused: true,
+      onComplete: () => {
+        navWrap.style.pointerEvents = "none";
+      },
+      onReverseComplete: () => {
+        navWrap.style.pointerEvents = "auto";
+      },
+    });
+
+    tl.to(children, {
+      y: -10,
+      autoAlpha: 0,
+      ease: "power3.inOut",
+      duration: 0.3,
+      stagger: 0.2,
+    });
+
+    // ScrollTrigger for hiding
+    ScrollTrigger.create({
+      trigger: this.root,
+      start: "top center",
+      onEnter: () => tl.play(),
+      onLeaveBack: () => tl.reverse(),
+    });
+
+    // ScrollTrigger for showing
+    ScrollTrigger.create({
+      trigger: this.workWrap,
+      start: "top 30%",
+      onEnter: () => tl.reverse(),
+      onLeaveBack: () => tl.play(),
     });
   }
 }
