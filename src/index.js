@@ -12,6 +12,7 @@ import { TimeAU } from "./pages/contact/timeAU";
 //utility functions
 import { initSmoothScroll } from "./utilities/scripts/smoothScroll";
 import { disableContextMenuAndDrag } from "./utilities/scripts/noContextMenu";
+import { FlipOnScroll } from "./pages/home/flipHeroScale";
 
 class App {
   constructor() {
@@ -36,8 +37,8 @@ class App {
     this.videoHover = new VideoOnHover();
 
     //home page animations
-    // this.heroScale = new HeroAnim(); // Old hero animation
-    this.heroScale = new NewHeroScale(); // New hero animation
+    //this.heroScale = new NewHeroScale(); // New hero animation
+    this.heroScale = new FlipOnScroll();
     this.realStory = new RealStory();
     this.services = new Services();
     this.marquee = new Marquee();

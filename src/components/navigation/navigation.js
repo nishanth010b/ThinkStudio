@@ -311,7 +311,7 @@ export class Nav {
     if (isMobileLandscape()) return;
     const logoWrap = document.querySelector(".nav_logo_wrap");
     window.addEventListener("scroll", () => {
-      if (window.scrollY > window.innerHeight * 0.5) {
+      if (window.scrollY > window.innerHeight * 0.2) {
         logoWrap.classList.add("is-normal");
       } else {
         logoWrap.classList.remove("is-normal");

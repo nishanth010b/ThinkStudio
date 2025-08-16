@@ -248,7 +248,7 @@ export class RealStory {
       this.items.forEach((item) => {
         if (item.speed !== undefined) {
           item.mouseX = mouseX * item.speed * 50;
-          item.mouseY = -mouseY * item.speed * 50;
+          item.mouseY = mouseY * item.speed * 50;
           this.updateImageTransform(item);
         }
       });
