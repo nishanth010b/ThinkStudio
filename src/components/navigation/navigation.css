@@ -2,18 +2,21 @@
   transition: opacity 1s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
-.nav_menu_item {
-  transition: transform 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
-}
-
 @media (hover: hover) and (pointer: fine) {
-  .nav_menu_list:hover:has(.nav_menu_item_wrap:hover)
-    .nav_menu_item_wrap:not(:hover) {
-    opacity: 0.5;
+  .nav_menu_words_wrap {
+    transition: transform 0.6s cubic-bezier(0.075, 0.82, 0.165, 1);
   }
 
-  .nav_menu_item_wrap:hover .nav_menu_number {
+  .nav_menu_words_wrap:hover .nav_menu_number {
     color: var(--swatch--brand-500);
+  }
+
+  .nav_menu_words_wrap:hover {
+    transform: translateX(2rem);
+  }
+
+  [data-menu-link="partner"]:hover {
+    transform: translateX(-2rem);
   }
 
   .nav_social_text {
@@ -41,5 +44,9 @@
 
   .nav_social_item:hover .nav_social_text {
     color: var(--swatch--light-100);
+  }
+
+  .nav_btn_wrap:active {
+    scale: 0.98;
   }
 }

@@ -11,10 +11,8 @@ export class Nav {
     this.handleKey();
     this.handleScroll();
     this.mobileProgBlurAppear();
-
-    if (!isMobile() || !isTouch) {
-      this.menuVideoPlay();
-    }
+    this.navHideUnhide();
+    this.menuVideoPlay();
   }
 
   setUp() {
@@ -24,10 +22,11 @@ export class Nav {
     this.menuBtn = this.navWrap.querySelector(".nav_btn_wrap");
     this.menuBtnDots = this.menuBtn.querySelector(".nav_btn_dots");
     this.menuBg = this.menu.querySelectorAll(".nav_menu_bg");
+    this.menuVisual = this.menu.querySelector(".nav_menu_visual");
     this.menuList = this.menu.querySelector(".nav_menu_list");
     this.menuLinks = this.menu.querySelectorAll(".nav_menu_item");
     this.menuSocialItems = this.menu.querySelectorAll(".nav_social_item");
-    this.menuBtnTexts = this.menuBtn.querySelectorAll(".nav_btn_text");
+    this.menuBtnText = this.menuBtn.querySelector(".nav_btn_text");
 
     //svg dot positions
     this.start = [
@@ -76,7 +75,7 @@ export class Nav {
     this.tl
       .clear()
       .set(this.overlay, { display: "block" }, "<")
-      .fromTo(this.overlay, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.6 })
+      .fromTo(this.overlay, { autoAlpha: 0 }, { autoAlpha: 1 })
       .set(
         this.menu,
         { display: "flex", clipPath: "inset(0% 0% 0% 0%)" },
@@ -85,20 +84,22 @@ export class Nav {
       .fromTo(
         this.menuBg,
         { yPercent: -101 },
-        { yPercent: 0, duration: 0.85, stagger: 0.1 },
+        { yPercent: 0, duration: 1.25, stagger: 0.15 },
         "<"
       )
-      // .fromTo(
-      //   this.menu.querySelector("img"),
-      //   { autoAlpha: 0 },
-      //   { autoAlpha: 1 },
-      //   "<+=0.15"
-      // )
-      .fromTo(
-        this.menuBtnTexts,
-        { yPercent: 0 },
-        { yPercent: -100, duration: 0.75 },
-        "<"
+      .fromTo(this.menuVisual, { opacity: 0 }, { opacity: 1 }, "<+=0.8")
+      .to(
+        this.menuBtnText,
+        {
+          scrambleText: {
+            text: "Close",
+            chars: "Think Studio",
+            speed: 0.7,
+          },
+          duration: 0.4,
+          delay: 0.2,
+        },
+        "<-=0.8"
       )
       .fromTo(
         this.menuList,
@@ -134,28 +135,35 @@ export class Nav {
       .fromTo(
         this.menu,
         { clipPath: "inset(0% 0% 0% 0%)" },
-        { clipPath: "inset(0% 0% 100% 0%)", duration: 1 }
+        { clipPath: "inset(0% 0% 100% 0%)" }
       )
-      // .fromTo(
-      //   this.menu.querySelector("img"),
-      //   { autoAlpha: 1 },
-      //   { autoAlpha: 0 },
-      //   "<+=0.15"
-      // )
+      .fromTo(this.menuVisual, { opacity: 1 }, { opacity: 0 }, "<+=0.15")
       .fromTo(
         this.menuList,
         { autoAlpha: 1 },
         { autoAlpha: 0, duration: 0.5 },
         "<+=0.15"
       )
-      .to(this.menuBtnTexts, { yPercent: 0, duration: 0.75 }, "<")
+      .to(
+        this.menuBtnText,
+        {
+          scrambleText: {
+            text: "Menu",
+            chars: "Think Studio",
+            speed: 0.7,
+          },
+          duration: 0.4,
+          delay: 0.2,
+        },
+        "<"
+      )
       .to(
         this.overlay,
         {
           autoAlpha: 0,
           duration: 0.55,
         },
-        "<+=0.35"
+        "<-=0.5"
       )
       .set(this.menu, { display: "none" });
   }
@@ -199,27 +207,7 @@ export class Nav {
     });
 
     //navlinks hover
-    this.menu.querySelectorAll(".nav_menu_item_wrap").forEach((item, index) => {
-      const menuItemElement = item.querySelector(".nav_menu_item");
-      const isLastChild =
-        index === this.menu.querySelectorAll(".nav_menu_item_wrap").length - 1;
-
-      if (!menuItemElement || isTouch || isMobile()) return;
-      item.addEventListener("mouseenter", () => {
-        gsap.to(menuItemElement, {
-          x: isLastChild ? "-2%" : "2%",
-          duration: 0.2,
-          ease: "power2.inOut",
-        });
-      });
-      item.addEventListener("mouseleave", () => {
-        gsap.to(menuItemElement, {
-          x: "0%",
-          duration: 0.2,
-          ease: "power2.inOut",
-        });
-      });
-    });
+    const wordsWrap = this.menu.querySelectorAll(".nav_menu_words_wrap");
   }
 
   handleKey() {
@@ -232,6 +220,7 @@ export class Nav {
   }
 
   menuVideoPlay() {
+    if (isMobileLandscape()) return;
     const videoContainers = this.menu.querySelectorAll("[data-menu-video]");
     const links = this.menuList.querySelectorAll("[data-menu-link]");
     let currentVideoContainer = null;
@@ -267,7 +256,7 @@ export class Nav {
           // Show container and play the video inside it
           matchingContainer.style.opacity = "1";
           if (videoElement) {
-            //videoElement.currentTime = 0;
+            videoElement.currentTime = 0;
             videoElement
               .play()
               .catch((e) => console.log("Video play error:", e));
@@ -277,30 +266,25 @@ export class Nav {
           currentVideoContainer = matchingContainer;
         }
       });
-    });
-
-    // Hide and pause all videos when not hovering any link
-    this.menuList.addEventListener("mouseleave", () => {
-      if (currentVideoContainer) {
-        currentVideoContainer.style.opacity = "0";
-        const video = currentVideoContainer.querySelector("video");
-        if (video) video.pause();
-        currentVideoContainer = null;
-      }
+      link.addEventListener("mouseleave", () => {
+        if (currentVideoContainer) {
+          currentVideoContainer.style.opacity = "0";
+          const video = currentVideoContainer.querySelector("video");
+          if (video) video.pause();
+          currentVideoContainer = null;
+        }
+      });
     });
   }
 
   mobileProgBlurAppear() {
     const progWrap = this.navWrap.querySelector(".nav_mobile_blur");
     if (!progWrap || !isMobileLandscape()) return;
-
-    gsap.set(progWrap, { opacity: 0 });
-
     gsap.to(progWrap, {
       scrollTrigger: {
         trigger: this.navWrap,
         start: "top top",
-        end: "top top-=10",
+        end: "top top-=100",
         toggleActions: "play none reverse none",
       },
       opacity: 1,
@@ -309,13 +293,55 @@ export class Nav {
 
   handleScroll() {
     if (isMobileLandscape()) return;
-    const logoWrap = document.querySelector(".nav_logo_wrap");
+    const btnWrap = document.querySelector(".nav_btn_wrap");
+
     window.addEventListener("scroll", () => {
-      if (window.scrollY > window.innerHeight * 0.2) {
-        logoWrap.classList.add("is-normal");
+      if (window.scrollY > window.innerHeight * 0.3) {
+        btnWrap.style.right = 0;
+        btnWrap.style.top = 0;
       } else {
-        logoWrap.classList.remove("is-normal");
+        btnWrap.style.right = "-1rem";
+        btnWrap.style.top = "-1rem";
       }
+    });
+  }
+
+  navHideUnhide() {
+    const navWrap = document.querySelector(".nav_wrap");
+    const container = navWrap.querySelector(".nav_contain");
+    const children = container.children;
+
+    // Create a single timeline for hide/show
+    const tl = gsap.timeline({
+      paused: true,
+      defaults: { ease: "power3.inOut", duration: 0.3 },
+    });
+
+    tl.to(children, {
+      y: -10,
+      stagger: 0.3,
+    }).to(
+      navWrap,
+      {
+        autoAlpha: 0,
+      },
+      "<"
+    );
+
+    // ScrollTrigger for hiding
+    ScrollTrigger.create({
+      trigger: ".real_wrap",
+      start: "top center",
+      onEnter: () => tl.play(),
+      onLeaveBack: () => tl.reverse(),
+    });
+
+    // ScrollTrigger for showing
+    ScrollTrigger.create({
+      trigger: ".work_wrap",
+      start: "top 30%",
+      onEnter: () => tl.reverse(),
+      onLeaveBack: () => tl.play(),
     });
   }
 }

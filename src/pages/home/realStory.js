@@ -16,7 +16,7 @@ export class RealStory {
     this.parallaxImage();
     this.stickyWork();
     this.mouseMove();
-    this.navHideUnhide();
+    this.videoPlayOnEnter();
   }
 
   textAnimationY() {
@@ -125,10 +125,14 @@ export class RealStory {
       .to(this.sentences[0].querySelectorAll(".char"), {
         opacity: 0,
       })
-      .to(".real_sticky_bg_dark", {
-        autoAlpha: 0,
-        duration: 0.3,
-      })
+      .to(
+        ".real_sticky_bg_dark",
+        {
+          autoAlpha: 0,
+          duration: 0.2,
+        },
+        "<+=0.5"
+      )
       .to(".real_sticky_bg_grad", { autoAlpha: 0, duration: 0.3 }, "<")
       .to(
         this.sentences[1].querySelectorAll(".char"),
@@ -148,20 +152,20 @@ export class RealStory {
     }
 
     this.workItems.forEach((item, index) => {
-      //if (this.workItems[index + 1]) {
-      gsap.to(item, {
-        opacity: 0,
-        yPercent: -10,
-        scale: isMobile() ? 0.8 : 0.7,
-        ease: "none",
-        scrollTrigger: {
-          trigger: item,
-          start: isMobile() ? "top 5vh" : "top 10vh",
-          scrub: true,
-          invalidateOnRefresh: true,
-        },
-      });
-      //}
+      if (this.workItems[index + 1]) {
+        gsap.to(item, {
+          opacity: 0,
+          yPercent: -10,
+          scale: isMobile() ? 0.8 : 0.7,
+          ease: "none",
+          scrollTrigger: {
+            trigger: item,
+            start: isMobile() ? "top 5vh" : "top 10vh",
+            scrub: true,
+            invalidateOnRefresh: true,
+          },
+        });
+      }
     });
 
     gsap.to(".real_sticky_bg_white", {
@@ -230,7 +234,7 @@ export class RealStory {
     // Assign speed based on normalized area (smaller area = higher speed)
     this.items.forEach((item) => {
       if (item.area !== undefined) {
-        const minSpeed = 0.2;
+        const minSpeed = 0.3;
         const maxSpeed = 2.5;
         item.speed =
           ((maxArea - item.area) / (maxArea - minArea)) *
@@ -262,44 +266,30 @@ export class RealStory {
     });
   }
 
-  navHideUnhide() {
-    const navWrap = document.querySelector(".nav_wrap");
-    const container = navWrap.querySelector(".nav_contain");
-    const children = container.children;
+  videoPlayOnEnter() {
+    const videos = this.workItems;
+    if (!videos.length) return;
 
-    // Create a single timeline for hide/show
-    const tl = gsap.timeline({
-      paused: true,
-      onComplete: () => {
-        navWrap.style.pointerEvents = "none";
-      },
-      onReverseComplete: () => {
-        navWrap.style.pointerEvents = "auto";
-      },
-    });
+    if (isMobileLandscape()) {
+      videos.forEach((el) => {
+        const video = el.querySelector("video");
+        video.remove();
+      });
+    } else {
+      videos.forEach((el) => {
+        const video = el.querySelector("video");
+        if (!video) return;
 
-    tl.to(children, {
-      y: -10,
-      autoAlpha: 0,
-      ease: "power3.inOut",
-      duration: 0.3,
-      stagger: 0.2,
-    });
-
-    // ScrollTrigger for hiding
-    ScrollTrigger.create({
-      trigger: this.root,
-      start: "top center",
-      onEnter: () => tl.play(),
-      onLeaveBack: () => tl.reverse(),
-    });
-
-    // ScrollTrigger for showing
-    ScrollTrigger.create({
-      trigger: this.workWrap,
-      start: "top 30%",
-      onEnter: () => tl.reverse(),
-      onLeaveBack: () => tl.play(),
-    });
+        ScrollTrigger.create({
+          trigger: el,
+          start: "top bottom",
+          end: "center top",
+          onEnter: () => video.play(),
+          onEnterBack: () => video.play(),
+          onLeave: () => video.pause(),
+          onLeaveBack: () => video.pause(),
+        });
+      });
+    }
   }
 }
