@@ -1,5 +1,5 @@
 export function initSmoothScroll() {
-  window.lenis = new window.Lenis({ lerp: 0.15, wheelMultiplier: 1.05 });
+  window.lenis = new window.Lenis({ lerp: 0.135, wheelMultiplier: 1.05 });
   window.lenis.on("scroll", ScrollTrigger.update);
   gsap.ticker.add((time) => {
     window.lenis.raf(time * 1000);

@@ -19,3 +19,36 @@ html::-webkit-scrollbar {
 body {
   overscroll-behavior-x: none; /* No back on scroll-x */
 }
+
+.button_main_bg,
+.button_main_text {
+  transition: transform 0.55s cubic-bezier(0.32, 0.72, 0, 1),
+    border-radius 0.5s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.button_main_bg_inner {
+  transition: clip-path 0.45s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.button_main_wrap:active {
+  transform: scale(0.98, 0.99);
+}
+
+.button_main_bg_inner {
+  clip-path: inset(85% 15% 15% 15% round 0.3rem);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .button_main_wrap:is(:hover, :focus-visible) .button_main_bg {
+    transform: scale(1.04, 1.06);
+    border-bottom-right-radius: var(--radius--very-small);
+  }
+
+  .button_main_wrap:is(:hover, :focus-visible) .button_main_text {
+    transform: translateY(-2em);
+  }
+
+  .button_main_wrap:is(:hover, :focus-visible) .button_main_bg_inner {
+    clip-path: inset(0% round 0.3rem);
+  }
+}

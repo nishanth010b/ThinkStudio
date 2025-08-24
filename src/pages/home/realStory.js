@@ -5,102 +5,29 @@ import isTouch from "../../utilities/scripts/touchDetection";
 export class RealStory {
   constructor() {
     this.root = document.querySelector(".real_wrap");
+    if (!this.root) return;
     this.sentences = this.root.querySelectorAll(".real_sticky_text");
     this.imageHolder = this.root.querySelector(".real_image_contain");
     this.workWrap = this.root.querySelector(".work_wrap");
     this.workList = this.workWrap.querySelector(".work_list");
     this.workItems = this.workList.querySelectorAll(".work_list_item");
 
-    //this.textAnimationY();
     this.textAnimationOpacity();
     this.parallaxImage();
     this.stickyWork();
     this.mouseMove();
-    this.videoPlayOnEnter();
   }
 
-  textAnimationY() {
-    SplitText.create(this.sentences, {
-      type: "chars, words",
-      tag: "span",
-      wordsClass: "word",
-      charsClass: "char",
-    });
-
-    //   gsap.set(this.sentences, { yPercent: 30, opacity: 0 });
-
-    gsap.set([this.root.querySelectorAll(".char")], {
-      opacity: 0,
-      rotationX: -40,
-      yPercent: 50,
-    });
-
-    const tl1 = gsap.timeline({
-      defaults: {
-        stagger: 0.02,
-      },
-      scrollTrigger: {
-        trigger: this.imageHolder,
-        start: "top bottom",
-        end: "center center",
-        scrub: true,
-        invalidateOnRefresh: true,
-      },
-    });
-
-    const tl2 = gsap.timeline({
-      defaults: {
-        stagger: 0.02,
-      },
-      scrollTrigger: {
-        trigger: this.imageHolder,
-        start: "center center",
-        end: "bottom bottom",
-        scrub: true,
-        invalidateOnRefresh: true,
-      },
-    });
-
-    tl1
-      .to(this.sentences[0], {
-        yPercent: 0,
-        opacity: 1,
-      })
-      .to(this.sentences[0].querySelectorAll(".char"), {
-        opacity: 1,
-        rotationX: 0,
-        yPercent: 0,
-      })
-      .to(this.sentences[0].querySelectorAll(".char"), {
-        opacity: 0,
-        rotationX: 40,
-        yPercent: -50,
-      });
-
-    tl2
-      .to(this.sentences[1].querySelectorAll(".char"), {
-        opacity: 1,
-        rotationX: 0,
-        yPercent: 0,
-      })
-      .to(this.sentences[1].querySelectorAll(".char"), {
-        opacity: 0,
-        rotationX: 40,
-        yPercent: -50,
-      });
-  }
-
-  //opacity animation
   textAnimationOpacity() {
     SplitText.create(this.sentences, {
-      type: "chars, words",
+      type: "chars",
       tag: "span",
-      wordsClass: "word",
       charsClass: "char",
     });
 
     gsap.set([this.root.querySelectorAll(".char")], {
       opacity: 0,
+      filter: "blur(5px)",
     });
     gsap.set(".real_sticky_text", {
       opacity: 1,
@@ -121,28 +48,32 @@ export class RealStory {
       })
       .to(this.sentences[0].querySelectorAll(".char"), {
         opacity: 1,
+        filter: "blur(0px)",
       })
       .to(this.sentences[0].querySelectorAll(".char"), {
         opacity: 0,
+        filter: "blur(5px)",
       })
       .to(
         ".real_sticky_bg_dark",
         {
           autoAlpha: 0,
-          duration: 0.2,
+          duration: 0.05,
         },
-        "<+=0.5"
+        "-=0.2"
       )
-      .to(".real_sticky_bg_grad", { autoAlpha: 0, duration: 0.3 }, "<")
+      .to(".real_sticky_bg_grad", { autoAlpha: 0, duration: 0.05 }, "<")
       .to(
         this.sentences[1].querySelectorAll(".char"),
         {
           opacity: 1,
+          filter: "blur(0px)",
         },
-        "-=0.1"
+        "-=0.2"
       )
       .to(this.sentences[1].querySelectorAll(".char"), {
         opacity: 0,
+        filter: "blur(5px)",
       });
   }
 
@@ -170,9 +101,10 @@ export class RealStory {
 
     gsap.to(".real_sticky_bg_white", {
       autoAlpha: 0,
-      duration: 0.2,
+      duration: 0.25,
+      ease: "none",
       scrollTrigger: {
-        trigger: ".services_wrap",
+        trigger: ".work_btn-wrap",
         start: "top bottom",
         toggleActions: "play none none reverse",
       },
@@ -264,32 +196,5 @@ export class RealStory {
       x: item.mouseX || 0,
       y: (item.parallaxY || 0) + (item.mouseY || 0),
     });
-  }
-
-  videoPlayOnEnter() {
-    const videos = this.workItems;
-    if (!videos.length) return;
-
-    if (isMobileLandscape()) {
-      videos.forEach((el) => {
-        const video = el.querySelector("video");
-        video.remove();
-      });
-    } else {
-      videos.forEach((el) => {
-        const video = el.querySelector("video");
-        if (!video) return;
-
-        ScrollTrigger.create({
-          trigger: el,
-          start: "top bottom",
-          end: "center top",
-          onEnter: () => video.play(),
-          onEnterBack: () => video.play(),
-          onLeave: () => video.pause(),
-          onLeaveBack: () => video.pause(),
-        });
-      });
-    }
   }
 }

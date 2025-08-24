@@ -2,17 +2,18 @@ import {
   isMobile,
   isMobileLandscape,
 } from "../../utilities/scripts/checkBreakpoints";
-import isTouch from "../../utilities/scripts/touchDetection";
 
 export class Nav {
   constructor() {
     this.setUp();
     this.handleMouse();
     this.handleKey();
-    this.handleScroll();
     this.mobileProgBlurAppear();
-    this.navHideUnhide();
     this.menuVideoPlay();
+    if (document.body.dataset.page === "home") {
+      this.navHideUnhide();
+      this.handleScroll();
+    }
   }
 
   setUp() {
@@ -87,7 +88,7 @@ export class Nav {
         { yPercent: 0, duration: 1.25, stagger: 0.15 },
         "<"
       )
-      .fromTo(this.menuVisual, { opacity: 0 }, { opacity: 1 }, "<+=0.8")
+      .fromTo(this.menuVisual, { opacity: 0 }, { opacity: 1 }, "<+=0.6")
       .to(
         this.menuBtnText,
         {
@@ -163,7 +164,7 @@ export class Nav {
           autoAlpha: 0,
           duration: 0.55,
         },
-        "<-=0.5"
+        "<-=0.2"
       )
       .set(this.menu, { display: "none" });
   }

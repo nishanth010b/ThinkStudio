@@ -1,6 +1,7 @@
 export class TimeAU {
   constructor() {
     this.element = document.querySelector(".contact_time");
+    console.log("working");
     if (!this.element) return;
     this.updateTime();
     this.start();

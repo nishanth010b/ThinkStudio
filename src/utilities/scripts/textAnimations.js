@@ -32,7 +32,7 @@ export class TextAnimations {
         scrollTrigger: {
           trigger: element,
           start: "top 90%",
-          toggleActions: "play none none reverse",
+          //toggleActions: "play none none reverse",
         },
         opacity: 0,
         duration: 0.5,
