@@ -21,7 +21,7 @@ export class LoaderAnimation {
   }
 
   init() {
-    window.lenis.scrollTo(0, { immediate: true, force: true });
+    // window.lenis.scrollTo(0, { immediate: true, force: true });
     window.lenis.stop();
 
     const split = SplitText.create(this.text, {

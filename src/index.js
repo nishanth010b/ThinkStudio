@@ -39,7 +39,19 @@ class App {
     this.textAnimations = new TextAnimations();
 
     if (document.body.dataset.page === "home") {
-      this.loader = new LoaderAnimation();
+      window.addEventListener("load", () => {
+        window.scrollTo(0, 0);
+        setTimeout(() => {
+          new LoaderAnimation();
+        }, 50);
+      });
+
+      window.addEventListener("pageshow", () => {
+        window.scrollTo(0, 0);
+        setTimeout(() => {
+          new LoaderAnimation();
+        }, 50);
+      });
       this.heroScale = new FlipOnScroll();
       this.realStory = new RealStory();
       // this.services = new Services();
