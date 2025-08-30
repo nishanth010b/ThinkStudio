@@ -95,7 +95,7 @@ export class LoaderAnimation {
     // Delay the play to ensure scroll position is set
     setTimeout(() => {
       this.play();
-    }, 50);
+    }, 150);
   }
 
   play() {

@@ -70,10 +70,10 @@ class App {
   }
 }
 
-window.addEventListener("beforeunload", function () {
-  document.body.style.display = "none";
-  window.scrollTo(0, 0);
-});
+// window.addEventListener("beforeunload", function () {
+//   document.body.style.display = "none";
+//   window.scrollTo(0, 0);
+// });
 
 window.addEventListener("DOMContentLoaded", () => {
   const app = new App();
