@@ -17,11 +17,22 @@ export class LoaderAnimation {
       },
     });
 
-    this.init();
+    window.addEventListener("load", () => {
+      window.scrollTo(0, 0);
+      setTimeout(() => {
+        this.init();
+      }, 50);
+    });
+
+    window.addEventListener("pageshow", () => {
+      window.scrollTo(0, 0);
+      setTimeout(() => {
+        this.init();
+      }, 50);
+    });
   }
 
   init() {
-    // window.lenis.scrollTo(0, { immediate: true, force: true });
     window.lenis.stop();
 
     const split = SplitText.create(this.text, {
