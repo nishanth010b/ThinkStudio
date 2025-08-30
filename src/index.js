@@ -70,19 +70,9 @@ class App {
   }
 }
 
-const scrollToTop = () => {
+window.addEventListener("beforeunload", function () {
+  document.body.style.display = "none";
   window.scrollTo(0, 0);
-  if (window.lenis) {
-    window.lenis.scrollTo(0, { immediate: true, force: true });
-  }
-};
-
-window.addEventListener("load", () => {
-  scrollToTop();
-});
-
-window.addEventListener("pageshow", () => {
-  scrollToTop();
 });
 
 window.addEventListener("DOMContentLoaded", () => {
