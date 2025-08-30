@@ -4,7 +4,7 @@ export class PageTransition {
   constructor() {
     this.root = document;
     this.pageLoad = this.root.querySelector(".page_load");
-
+    if (!this.pageLoad) return;
     //this.setGrid();
     this.gridAnimation();
   }

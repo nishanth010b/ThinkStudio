@@ -35,6 +35,7 @@ export class TextAnimations {
           //toggleActions: "play none none reverse",
         },
         opacity: 0,
+        rotate: 0.001,
         duration: 0.5,
         ease: "expo.inOut",
         stagger: {

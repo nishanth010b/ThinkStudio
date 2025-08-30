@@ -25,6 +25,7 @@ export class FlipOnScroll {
         endTrigger: this.wrapperElements[this.wrapperElements.length - 1],
         end: "center 42%",
         scrub: true,
+        invalidateOnRefresh: true,
       },
     });
 

@@ -3,7 +3,8 @@
 @import "../utilities/styles/hoverLineAnim.css";
 @import "../pages/work/work.css";
 
-.char {
+.char,
+.word {
   display: inline-block;
 }
 

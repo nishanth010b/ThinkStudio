@@ -279,16 +279,20 @@ export class Nav {
   }
 
   mobileProgBlurAppear() {
-    const progWrap = this.navWrap.querySelector(".nav_mobile_blur");
+    const progWrap = document.querySelector(".nav_mobile_blur");
     if (!progWrap || !isMobileLandscape()) return;
-    gsap.to(progWrap, {
-      scrollTrigger: {
-        trigger: this.navWrap,
-        start: "top top",
-        end: "top top-=100",
-        toggleActions: "play none reverse none",
-      },
-      opacity: 1,
+
+    gsap.set(progWrap, { clipPath: "inset(0% 0% 100% 0%)" }); // Ensure element starts hidden
+
+    ScrollTrigger.create({
+      trigger: this.navWrap,
+      start: "top top",
+      end: "top top-=100",
+      toggleActions: "play none reverse none",
+      animation: gsap.to(progWrap, {
+        clipPath: "inset(0% 0% 0% 0%)",
+        duration: 0.3,
+      }),
     });
   }
 
@@ -321,14 +325,22 @@ export class Nav {
     tl.to(children, {
       y: -10,
       stagger: 0.3,
-    }).to(
-      navWrap,
-      {
-        autoAlpha: 0,
-      },
-      "<"
-    );
-
+    })
+      .to(
+        navWrap,
+        {
+          autoAlpha: 0,
+        },
+        "<"
+      )
+      .to(
+        ".nav_mobile_blur",
+        {
+          clipPath: "inset(0% 0% 100% 0%)",
+          duration: 0.3,
+        },
+        "<"
+      );
     // ScrollTrigger for hiding
     ScrollTrigger.create({
       trigger: ".real_wrap",
