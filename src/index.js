@@ -1,3 +1,7 @@
+if ("scrollRestoration" in history) {
+  history.scrollRestoration = "manual";
+}
+
 import { TextAnimations } from "./utilities/scripts/textAnimations";
 import { Nav } from "./components/navigation/navigation";
 import { LoaderAnimation } from "./pages/home/loader";
@@ -39,19 +43,9 @@ class App {
     this.textAnimations = new TextAnimations();
 
     if (document.body.dataset.page === "home") {
-      window.addEventListener("load", () => {
-        window.scrollTo(0, 0);
-        setTimeout(() => {
-          new LoaderAnimation();
-        }, 50);
-      });
-
-      window.addEventListener("pageshow", () => {
-        window.scrollTo(0, 0);
-        setTimeout(() => {
-          new LoaderAnimation();
-        }, 50);
-      });
+      setTimeout(() => {
+        this.loader = new LoaderAnimation();
+      }, 50);
       this.heroScale = new FlipOnScroll();
       this.realStory = new RealStory();
       // this.services = new Services();
@@ -75,6 +69,21 @@ class App {
     });
   }
 }
+
+const scrollToTop = () => {
+  window.scrollTo(0, 0);
+  if (window.lenis) {
+    window.lenis.scrollTo(0, { immediate: true, force: true });
+  }
+};
+
+window.addEventListener("load", () => {
+  scrollToTop();
+});
+
+window.addEventListener("pageshow", () => {
+  scrollToTop();
+});
 
 window.addEventListener("DOMContentLoaded", () => {
   const app = new App();

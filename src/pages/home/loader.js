@@ -17,19 +17,7 @@ export class LoaderAnimation {
       },
     });
 
-    window.addEventListener("load", () => {
-      window.scrollTo(0, 0);
-      setTimeout(() => {
-        this.init();
-      }, 50);
-    });
-
-    window.addEventListener("pageshow", () => {
-      window.scrollTo(0, 0);
-      setTimeout(() => {
-        this.init();
-      }, 50);
-    });
+    this.init();
   }
 
   init() {
