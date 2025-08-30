@@ -2,9 +2,14 @@ export class LoaderAnimation {
   constructor() {
     this.root = document.querySelector(".hero_primary_wrap");
     if (!this.root) return;
-    if ("scrollRestoration" in history) {
-      history.scrollRestoration = "manual";
-    }
+
+    window.addEventListener("load", () => {
+      window.scrollTo(0, 0);
+    });
+
+    window.addEventListener("pageshow", () => {
+      window.scrollTo(0, 0);
+    });
 
     this.videoWrap = this.root.querySelector(".hero_primary_video_holder");
     this.video = this.root.querySelector("[data-hero-video-holder]");
@@ -24,7 +29,7 @@ export class LoaderAnimation {
   }
 
   init() {
-    window.scrollTo(0, 0);
+    window.scroll;
     window.lenis.stop();
 
     const split = SplitText.create(this.text, {
