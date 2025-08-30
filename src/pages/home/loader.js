@@ -92,8 +92,13 @@ export class LoaderAnimation {
         { yPercent: 0, autoAlpha: 1, duration: 0.45 },
         "-=0.5"
       );
-    this.play();
+
+    // Delay the play to ensure scroll position is set
+    setTimeout(() => {
+      this.play();
+    }, 50);
   }
+
   play() {
     this.timeline.play();
   }
