@@ -3,14 +3,6 @@ export class LoaderAnimation {
     this.root = document.querySelector(".hero_primary_wrap");
     if (!this.root) return;
 
-    window.addEventListener("load", () => {
-      window.scrollTo(0, 0);
-    });
-
-    window.addEventListener("pageshow", () => {
-      window.scrollTo(0, 0);
-    });
-
     this.videoWrap = this.root.querySelector(".hero_primary_video_holder");
     this.video = this.root.querySelector("[data-hero-video-holder]");
     this.logoWrap = this.root.querySelector(".loader_logo_wrap");
@@ -29,7 +21,7 @@ export class LoaderAnimation {
   }
 
   init() {
-    window.scroll;
+    window.lenis.scrollTo(0, { immediate: true, force: true });
     window.lenis.stop();
 
     const split = SplitText.create(this.text, {
