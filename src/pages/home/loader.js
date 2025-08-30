@@ -15,23 +15,15 @@ export class LoaderAnimation {
         ease: CustomEase.create("custom", "M0,0 C0.709,0 0.291,1 1,1 "),
         duration: 1.25,
       },
-      onComplete: () => {
-        // window.lenis.start();
-        // gsap.to(".nav_wrap", {
-        //   yPercent: 0,
-        //   autoAlpha: 1,
-        //   duration: 0.45,
-        //   //ease: "power3.out",
-        // });
-      },
     });
 
     this.init();
   }
 
   init() {
+    window.lenis.scrollTo(0, { immediate: true });
     window.lenis.stop();
-    window.scrollTo(0, 0);
+
     const split = SplitText.create(this.text, {
       type: "words",
       wordsClass: "word",
