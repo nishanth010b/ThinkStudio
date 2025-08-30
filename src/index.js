@@ -39,6 +39,9 @@ class App {
     this.textAnimations = new TextAnimations();
 
     if (document.body.dataset.page === "home") {
+      if ("scrollRestoration" in history) {
+        history.scrollRestoration = "manual";
+      }
       window.scrollTo(0, 0);
       this.loader = new LoaderAnimation();
       this.heroScale = new FlipOnScroll();
