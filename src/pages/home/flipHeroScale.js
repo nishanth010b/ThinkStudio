@@ -1,3 +1,8 @@
+import {
+  isMobile,
+  isMobileLandscape,
+} from "../../utilities/scripts/checkBreakpoints";
+
 export class FlipOnScroll {
   constructor() {
     gsap.registerPlugin(ScrollTrigger, Flip);
@@ -24,7 +29,7 @@ export class FlipOnScroll {
         start: "top top",
         endTrigger: this.wrapperElements[this.wrapperElements.length - 1],
         end: "center 42%",
-        scrub: true,
+        scrub: isMobileLandscape() ? true : 0.2,
         invalidateOnRefresh: true,
       },
     });

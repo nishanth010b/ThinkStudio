@@ -12,6 +12,7 @@ export function initSmoothScroll() {
   }
 
   requestAnimationFrame(raf);
+  history.scrollRestoration = "manual";
 
   return window.lenis;
 }
